@@ -137,7 +137,7 @@ class LocalDocker:
         args = args + [ "-u", str(config.Config.VM_ULIMIT_USER_PROC), "-f", str(config.Config.VM_ULIMIT_FILE_SIZE), "-t", str(runTimeout), "-o", str(config.Config.MAX_OUTPUT_FILE_SIZE)]
 
         self.log.debug('Running job: %s' % str(args))
-        ret = timeout(args, runTimeout)
+        ret = timeout(args, runTimeout * 2)
         self.log.debug('runJob returning %d' % ret)
 
         return ret
