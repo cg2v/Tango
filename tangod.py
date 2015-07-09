@@ -56,11 +56,6 @@ class TangoServer:
         self.jobQueue = jobQueue
         self.preallocator = preallocator
         self.vmms = vmms
-        logging.basicConfig(
-            filename=Config.LOGFILE,
-            format="%(levelname)s|%(asctime)s|%(name)s|%(message)s",
-            level=Config.LOGLEVEL,
-        )
         self.log = logging.getLogger("Tangod")
         self.log.info("Starting Tango server on port %d" % (Config.PORT))
 

@@ -73,6 +73,11 @@ class JobManager:
 
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        filename=Config.LOGFILE,
+        format="%(levelname)s|%(asctime)s|%(name)s|%(message)s",
+        level=Config.LOGLEVEL,
+    )
 
     if not Config.USE_REDIS:
         print("You need to have Redis running to be able to initiate stand-alone\

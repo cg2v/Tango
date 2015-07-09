@@ -60,19 +60,12 @@ class TangoREST:
 
     COURSELABS = Config.COURSELABS
     OUTPUT_FOLDER = "output"
-    LOGFILE = Config.LOGFILE
 
     # Replace with choice of key store and override validateKey.
     # This key is just for testing.
     keys = Config.KEYS
 
     def __init__(self):
-
-        logging.basicConfig(
-                filename = self.LOGFILE,
-                format = "%(levelname)s|%(asctime)s|%(name)s|%(message)s",
-                level = Config.LOGLEVEL
-                )
 
         vmms = None
 
@@ -101,12 +94,6 @@ class TangoREST:
             JobManager(self.queue, self.vmms, self.preallocator)
 
         self.tango = TangoServer(self.queue, self.preallocator, self.vmms)
-
-        logging.basicConfig(
-            filename=self.LOGFILE,
-            format="%(levelname)s|%(asctime)s|%(name)s|%(message)s",
-            level=Config.LOGLEVEL
-        )
 
         logging.getLogger('boto').setLevel(logging.INFO)
         self.log = logging.getLogger("TangoREST")

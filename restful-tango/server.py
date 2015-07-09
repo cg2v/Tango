@@ -1,13 +1,13 @@
 import tornado.web
 import urllib
 import sys
+import logging
 from concurrent.futures import ThreadPoolExecutor
 from functools import partial, wraps
 
 import tangoREST
 from config import Config
 
-tangoREST = tangoREST.TangoREST()
 EXECUTOR = ThreadPoolExecutor(max_workers=4)
 
 # Regex for the resources
@@ -138,7 +138,13 @@ application = tornado.web.Application([
 
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        filename=Config.LOGFILE,
+        format="%(levelname)s|%(asctime)s|%(name)s|%(message)s",
+        level=Config.LOGLEVEL,
+    )
 
+    tangoREST = tangoREST.TangoREST()
     port = Config.PORT
     if len(sys.argv) > 1:
         port = int(sys.argv[1])
