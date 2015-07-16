@@ -11,7 +11,7 @@ RUN useradd autolab && useradd autograde
 RUN mkdir autolab autograde output && chown autolab:autolab autolab output && chown autograde:autograde autograde
 ADD . /home/autodriver
 WORKDIR /home/autodriver
-RUN make clean && make && install -c -o root -g root -m 4755 autodriver /usr/bin/autodriver && install -c -m 755 autograde_wrapper.py /usr/bin/autograde_wrapper
+RUN make clean && make && install -c -o root -g root -m 4755 autodriver /usr/bin/autodriver && install -c -m 755 autograde_wrapper.pl /usr/bin/autograde_wrapper
 ENTRYPOINT ["/usr/bin/autograde_wrapper"]
 
 # Install C0
