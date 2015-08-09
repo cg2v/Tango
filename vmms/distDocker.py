@@ -312,7 +312,7 @@ class DistDocker:
             hosts=socket.gethostbyname_ex(self.hostDNSPoolname)[2]
         except EnvironmentError:
             return result
-        for host in self.hosts:
+        for host in hosts:
             o = subprocess.check_output(["ssh"] + DistDocker._SSH_FLAGS +
                                         ["%s@%s" % (self.hostUser, host),
                                         "(docker images)"])
