@@ -120,7 +120,7 @@ class DistDocker:
                 addr=socket.gethostbyname(self.hostDNSPoolname)
                 host=socket.gethostbyaddr(addr)
             except EnvironmentError:
-                self.log.exception("DNS lookup failed while setting up vm %s." % (vm.name)
+                self.log.exception("DNS lookup failed while setting up vm %s." % (vm.name))
                 return -1
 
             vm.domain_name = host
