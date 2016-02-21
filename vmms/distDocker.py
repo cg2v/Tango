@@ -204,8 +204,10 @@ class DistDocker(object):
                 + ["%s@%s" % (self.hostUser, vm.domain_name)]
             )
             if ret != 0:
-                self.log.debug("Lost persistent SSH connection")
-                return ret
+                self.log.warning("Lost persistent SSH connection")
+                vm.use_ssh_master = False
+                shutil.rmtree(vm.ssh_control_dir, ignore_errors=True)
+                vm.ssh_flags = DistDocker._SSH_AUTH_FLAGS
 
         # Create a fresh volume
         ret = timeout(
@@ -268,8 +270,10 @@ class DistDocker(object):
                 + ["%s@%s" % (self.hostUser, vm.domain_name)]
             )
             if ret != 0:
-                self.log.debug("Lost persistent SSH connection")
-                return ret
+                self.log.warning("Lost persistent SSH connection")
+                vm.use_ssh_master = False
+                shutil.rmtree(vm.ssh_control_dir, ignore_errors=True)
+                vm.ssh_flags = DistDocker._SSH_AUTH_FLAGS
 
         autodriverCmd = (
             "autodriver -u %d -f %d -t %d -o %d autolab > output/feedback 2>&1"
@@ -328,8 +332,10 @@ class DistDocker(object):
                 + ["%s@%s" % (self.hostUser, vm.domain_name)]
             )
             if ret != 0:
-                self.log.debug("Lost persistent SSH connection")
-                return ret
+                self.log.warning("Lost persistent SSH connection")
+                vm.use_ssh_master = False
+                shutil.rmtree(vm.ssh_control_dir, ignore_errors=True)
+                vm.ssh_flags = DistDocker._SSH_AUTH_FLAGS
 
         ret = timeout(
             ["scp"]
@@ -360,7 +366,7 @@ class DistDocker(object):
                 + ["%s@%s" % (self.hostUser, vm.domain_name)]
             )
             if ret != 0:
-                self.log.debug("Lost persistent SSH connection")
+                self.log.warning("Lost persistent SSH connection")
                 vm.use_ssh_master = False
                 shutil.rmtree(vm.ssh_control_dir, ignore_errors=True)
                 vm.ssh_flags = DistDocker._SSH_AUTH_FLAGS
@@ -495,7 +501,9 @@ class DistDocker(object):
             )
             if ret != 0:
                 self.log.debug("Lost persistent SSH connection")
-                return ret
+                vm.use_ssh_master = False
+                shutil.rmtree(vm.ssh_control_dir, ignore_errors=True)
+                vm.ssh_flags = DistDocker._SSH_AUTH_FLAGS
 
         cmd = "(docker exec %s head -c %s autograde/output.log)" % (
             instanceName,
