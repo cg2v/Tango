@@ -190,7 +190,8 @@ class DistDocker:
         if ret == 0:
             self.log.debug("Volume directory created on VM.")
         else:
-            return ret
+            self.log.error("Volume directory %s not created on %s." % (volumePath, vm.domain_name))
+            #return ret
         
         for file in inputFiles:
             ret = timeout(["scp"] + DistDocker._SSH_FLAGS + vm.ssh_flags +
