@@ -66,7 +66,7 @@ def timeoutWithReturnStatus(command, time_out, returnValue = 0):
 
 class DistDocker:
 
-    _SSH_FLAGS = ["-q", "-o", "BatchMode=yes" ]
+    _SSH_FLAGS = ["-o", "BatchMode=yes" ]
     _SSH_AUTH_FLAGS = [ "-i", os.path.join(os.path.dirname(__file__), "id_rsa"),
               "-o", "StrictHostKeyChecking=no",
               "-o", "GSSAPIAuthentication=no"]
