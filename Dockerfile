@@ -1,10 +1,11 @@
 # Start with empty ubuntu machine
-FROM ubuntu:15.04
+FROM ubuntu:16.04
 
 MAINTAINER Autolab Development Team "autolab-dev@andrew.cmu.edu"
 
 # Setup correct environment variable
 ENV HOME /root
+EXPOSE 8610
 
 # Change to working directory
 WORKDIR /opt
@@ -13,6 +14,7 @@ WORKDIR /opt
 ADD . TangoService/Tango/
 WORKDIR /opt/TangoService/Tango
 RUN mkdir volumes
+COPY config.template.py config.py
 
 WORKDIR /opt
 
@@ -32,8 +34,6 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
 	apt-transport-https \
     ca-certificates \
-    lxc \
-    iptables \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
