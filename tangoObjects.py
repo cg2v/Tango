@@ -291,6 +291,18 @@ def TangoDictionary(object_name):
     else:
         return TangoNativeDictionary()
 
+class TangoDictionaryIter(object):
+    def __init__(self, parent):
+        self.iter_index = iter(range(1, Config.MAX_JOBID+1))
+        self.parent = parent
+
+    def __next__(self):
+        nextidx = next(self.iter_index)
+        item = self.parent.get(nextidx)
+        if item:
+           return (nextidx, item)
+        else:
+           raise StopIteration
 
 class TangoRemoteDictionary(object):
 
@@ -341,6 +353,9 @@ class TangoRemoteDictionary(object):
         return iter([(i, self.get(i)) for i in range(1, Config.MAX_JOBID + 1)
                      if self.get(i) is not None])
 
+    def __iter__(self):
+        return TangoDictionaryIter(self)
+
 
 class TangoNativeDictionary(object):
 
@@ -372,6 +387,9 @@ class TangoNativeDictionary(object):
     def items(self):
         return iter([(i, self.get(i)) for i in range(1, Config.MAX_JOBID + 1)
                      if self.get(i) is not None])
+
+    def __iter__(self):
+        return TangoDictionaryIter(self)
 
     def _clean(self):
         # only for testing
