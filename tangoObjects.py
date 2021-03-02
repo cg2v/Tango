@@ -366,7 +366,7 @@ class TangoNativeDictionary(object):
         return list(self.dict.values())
 
     def delete(self, id):
-        if str(id) in list(self.dict.keys()):
+        if str(id) in self.dict:
             del self.dict[str(id)]
 
     def items(self):
