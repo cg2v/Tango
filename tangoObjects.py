@@ -349,10 +349,6 @@ class TangoRemoteDictionary(object):
         # only for testing
         self.r.delete(self.hash_name)
 
-    def items(self):
-        return iter([(i, self.get(i)) for i in range(1, Config.MAX_JOBID + 1)
-                     if self.get(i) is not None])
-
     def __iter__(self):
         return TangoDictionaryIter(self)
 
@@ -383,10 +379,6 @@ class TangoNativeDictionary(object):
     def delete(self, id):
         if str(id) in self.dict:
             del self.dict[str(id)]
-
-    def items(self):
-        return iter([(i, self.get(i)) for i in range(1, Config.MAX_JOBID + 1)
-                     if self.get(i) is not None])
 
     def __iter__(self):
         return TangoDictionaryIter(self)

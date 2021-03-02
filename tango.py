@@ -241,7 +241,7 @@ class TangoServer(object):
                     self.log.warning("Killed these %s VMs on restart: %s" %
                                      (vmms_name, namelist))
 
-            for _, job in self.jobQueue.liveJobs.items():
+            for _, job in self.jobQueue.liveJobs:
                 if not job.isNotAssigned():
                     job.makeUnassigned()
                 self.log.debug("job: %s, assigned: %s" %
