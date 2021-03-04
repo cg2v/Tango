@@ -295,7 +295,7 @@ class DistDocker(object):
             % autodriverCmd
         )
 
-        args = "(docker run --name %s -v %s:/home/mount %s sh -c '%s')" % (
+        args = "(docker run --memory=2g --memory-swap=3g --name %s -v %s:/home/mount %s sh -c '%s')" % (
             instanceName,
             volumePath,
             vm.image,
