@@ -394,6 +394,13 @@ class DistDocker(object):
             config.Config.DOCKER_RM_TIMEOUT,
         )
         self.log.debug("Deleted volume %s" % instanceName)
+        # Wait for btrfs sync
+        timeout(
+            ["ssh"]
+            + DistDocker._SSH_FLAGS
+            + vm.ssh_flags
+            + ["%s@%s" % (self.hostUser, vm.domain_name), "(sync)"],
+            config.Config.DOCKER_RM_TIMEOUT)
         if vm.use_ssh_master:
             timeout(
                 ["ssh"]
