@@ -138,7 +138,7 @@ class Worker(threading.Thread):
                 self.log.debug("Sending request to %s" % job.notifyURL)
                 with requests.session() as s:
                     # urllib3 retry, allow POST to be retried, use backoffs
-                    r = Retry(total=10, allowed_methods=False, backoff_factor=1)
+                    r = Retry(total=10, method_whitelist=False, backoff_factor=1)
                     s.mount("http://", HTTPAdapter(max_retries=r))
                     s.mount("https://", HTTPAdapter(max_retries=r))
                     response = s.post(
