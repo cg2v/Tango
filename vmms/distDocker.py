@@ -280,24 +280,20 @@ class DistDocker(object):
                 config.Config.MAX_OUTPUT_FILE_SIZE,
             )
         )
+        args = ["docker", "run", "--name", instanceName, "-v"]
+        args.append("%s:%s" % (volumePath, "/home/mount"))
+        if vm.cores:
+            args.append(f"--cpus={vm.cores}")
+        if vm.memory:
+            args.extend(("-m", f"{vm.memory}m"))
+        if disableNetwork:
+            args.append("--network", "none")
 
-        # IMPORTANT: The single and double quotes are important, since we
-        #            are switching to the autolab user and then running
-        #            bash commands.
-        setupCmd = (
-            'cp -r mount/* autolab/; su autolab -c "%s"; \
-                cp output/feedback mount/feedback'
-            % autodriverCmd
-        )
-
-        disableNetworkArg = "--network none" if disableNetwork else ""
-
-        args = "(docker run --name %s -v %s:/home/mount %s %s sh -c '%s')" % (
-            instanceName,
-            volumePath,
-            disableNetworkArg,
-            vm.image,
-            setupCmd,
+        args.append(vm.image)
+        args.extend(("sh", "-c"))
+        args.append(
+            f"\"cp -r mount/* autolab/; su autolab -c '{autodriverCmd}'; \
+                        cp output/feedback mount/feedback\""
         )
 
         self.log.debug("Running job: %s" % args)
@@ -306,7 +302,8 @@ class DistDocker(object):
             ["ssh"]
             + DistDocker._SSH_FLAGS
             + vm.ssh_flags
-            + ["%s@%s" % (self.hostUser, vm.domain_name), args],
+            + ["%s@%s" % (self.hostUser, vm.domain_name)]
+            + args,
             runTimeout * 2,
         )
 
