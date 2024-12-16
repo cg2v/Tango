@@ -19,6 +19,7 @@ import sys
 import shutil
 import tempfile
 import socket
+from collections.abc import Mapping
 import config
 from tangoObjects import TangoMachine
 
@@ -293,6 +294,8 @@ class DistDocker(object):
             args.append(f"--memory={vm.memory}m")
         if disableNetwork:
             args.append("--network=none")
+        elif vm.network and isinstance(vm.network, Mapping) and "docker_attachment" in vm.network:
+            args.append(f"--network={vm.network['docker_attachment']}")
 
         args.append(vm.image)
         args.extend(("sh", "-c"))
