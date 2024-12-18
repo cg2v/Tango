@@ -271,15 +271,6 @@ class DistDocker(object):
                 self.log.debug("Lost persistent SSH connection")
                 return ret
 
-        autodriverCmd = (
-            "autodriver -u %d -f %d -t %d -o %d autolab > output/feedback 2>&1"
-            % (
-                config.Config.VM_ULIMIT_USER_PROC,
-                config.Config.VM_ULIMIT_FILE_SIZE,
-                runTimeout,
-                config.Config.MAX_OUTPUT_FILE_SIZE,
-            )
-        )
         args = ["docker", "run", "--name", instanceName, "-v"]
         args.append("%s:%s" % (volumePath, "/home/mount"))
         if vm.cores:
@@ -291,6 +282,14 @@ class DistDocker(object):
 
         args.append(vm.image)
         args.extend(("sh", "-c"))
+
+        autodriverCmd = (
+            f"autodriver -u {config.Config.VM_ULIMIT_USER_PROC} "
+            f"-f {config.Config.VM_ULIMIT_FILE_SIZE} "
+            f"-t {runTimeout} -o {config.Config.MAX_OUTPUT_FILE_SIZE} "
+            "autolab > output/feedback 2>&1"
+        )
+
         args.append(
             f"\"cp -r mount/* autolab/; su autolab -c '{autodriverCmd}'; \
                         cp output/feedback mount/feedback\""

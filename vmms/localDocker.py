@@ -167,13 +167,10 @@ class LocalDocker(object):
         args.extend(("sh", "-c"))
 
         autodriverCmd = (
-            "autodriver -u %d -f %d -t %d -o %d autolab > output/feedback 2>&1"
-            % (
-                config.Config.VM_ULIMIT_USER_PROC,
-                config.Config.VM_ULIMIT_FILE_SIZE,
-                runTimeout,
-                config.Config.MAX_OUTPUT_FILE_SIZE,
-            )
+            f"autodriver -u {config.Config.VM_ULIMIT_USER_PROC} "
+            f"-f {config.Config.VM_ULIMIT_FILE_SIZE} "
+            f"-t {runTimeout} -o {config.Config.MAX_OUTPUT_FILE_SIZE} "
+            "autolab > output/feedback 2>&1"
         )
 
         args.append(
