@@ -160,9 +160,9 @@ class LocalDocker(object):
         if vm.cores:
             args.append(f"--cpus={vm.cores}")
         if vm.memory:
-            args.extend(("-m", f"{vm.memory}m"))
+            args.append(f"--memory{vm.memory}m")
         if disableNetwork:
-            args.append("--network", "none")
+            args.append("--network=none")
         args.append(vm.image)
         args.extend(("sh", "-c"))
 
